@@ -1,4 +1,4 @@
-var topics = ['dogs', 'cats', 'monkeys', 'giraffes'];
+var topics = ['books', 'nature', 'swimming', 'space'];
 
 function renderButtons() {
     $('#addButton').empty();
@@ -13,6 +13,8 @@ function renderButtons() {
         $('#addButton').append(button);
 
     }
+    addGif();
+
 };
 
 $('#addGif').on('click', function() {
@@ -22,5 +24,52 @@ $('#addGif').on('click', function() {
     renderButtons();
     return false;
 });
+
 renderButtons();
 
+
+function addGif() {
+    $('button').on('click', function() {
+        var p = $(this).data('name');
+        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + p + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+        $.ajax({ url: queryURL, method: 'GET' })
+            .done(function(response) {
+                var results = response.data;
+                console.log(response);
+
+                for (var i = 0; i < results.length; i++) {
+                    var gifDiv = $('<div class="item">');
+                    var rating = results[i].rating;
+                    var p = $('<p>').text("Rating: " + rating);
+
+                    var giphyImg = $('<img>');
+                    giphyImg.attr('src', results[i].images.fixed_height_still.url);
+                    giphyImg.attr('data-still', results[i].images.fixed_height_still.url);
+                    giphyImg.attr('data-animate', results[i].images.fixed_height.url);
+                    giphyImg.attr('data-state', results[i].images.fixed_height_still.url);
+
+                    gifDiv.append(giphyImg)
+                    gifDiv.append(p)
+
+                    $('#gifsAppearHere').prepend(gifDiv);
+
+                }
+
+                $('.item').children('img').on('click', function() {
+
+
+                    var state = $(this).attr('data-state');
+
+                    if (state == 'still') {
+                        $(this).attr('src', $(this).data('animate'));
+                        $(this).attr('data-state', 'animate');
+                    } else {
+                        $(this).attr('src', $(this).data('still'));
+                        $(this).attr('data-state', 'still');
+                    }
+
+                });
+            });
+    });
+}
