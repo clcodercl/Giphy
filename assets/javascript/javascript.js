@@ -15,14 +15,17 @@
 6. Add a form to your page takes the value from a user input box and adds it into your `topics` array. Then make a function call that takes each topic in the array remakes the buttons on the page.
 <script type="text/javascript">
 
-var topics = ['cats', 'dogs', 'elephants', 'monkeys', 'skunks'];
+//create an array of strings
+var topics = ["cats", "dogs", "elephants", "monkeys", "skunks"];
 
 
+// Try using a loop that appends a button for each string in the array. //When the user clicks on a button, the page should grab 10 static, non-animated gif images from the GIPHY API
 $('button').on('click', function(){
-    var person = $(this).data('person'); // <------------------------- 1. What is this in "this" case?
+    var animal = $(this).data('animal'); // <------------------------- 1. What is this in "this" case?
 
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + person + "&api_key=dc6zaTOxFJmzC&limit=10";
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=10";
 
+//take the topics in this array and create buttons in your HTML.
     $.ajax({url: queryURL, method: 'GET'})
      .done(function(response) {
         var results = response.data;
@@ -40,51 +43,38 @@ $('button').on('click', function(){
 
                 var p = $('<p>').text( "Rating: " + rating);
 
-                var personImage = $('<img>');
-                personImage.attr('src', results[i].images.fixed_height.url);
+                var animalImage = $('<img>');
+                animalImage.attr('src', results[i].images.fixed_height.url);
 
                 gifDiv.append(p)
-                gifDiv.append(personImage)
+                gifDiv.append(animalsImage)
 
                 $('#gifsAppearHere').prepend(gifDiv);
 
             }
-         }
+        }
     }
 
 
-
-$('button').on('click', function(){
-    var person = $(this).data('person'); // <------------------------- 1. What is this in "this" case?
-
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + person + "&api_key=dc6zaTOxFJmzC&limit=10";
-
-    $.ajax({url: queryURL, method: 'GET'})
-     .done(function(response) {
-        var results = response.data;
-
-        for (var i=0; i < results.length; i++) {
-
-            if (results[i].rating == "r" || results[i].rating == "pg-13")
-            {
-
+//When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
+    
+  $('.gif').on('click', function(){
+      var state = $(this).attr('data-state');
+         if ( state == 'still'){
+                $(this).attr('src', $(this).data('animate'));
+                $(this).attr('data-state', 'animate');
+            }else{
+                $(this).attr('src', $(this).data('still'));
+                $(this).attr('data-state', 'still');
             }
-            else {
-                var gifDiv = $('<div class="item">')
 
-                var rating = results[i].rating;
+ 
 
-                var p = $('<p>').text( "Rating: " + rating);
+    //Add a form to your page takes the value from a user input box and adds it into your `topics` array. Then make a function call that takes each topic in the array remakes the buttons on the page.
+             
 
-                var personImage = $('<img>');
-                personImage.attr('src', results[i].images.fixed_height.url);
 
-                gifDiv.append(p)
-                gifDiv.append(personImage)
-
-                $('#gifsAppearHere').prepend(gifDiv);
-            }
-         }
-    });
 });
+
+
 </script>
