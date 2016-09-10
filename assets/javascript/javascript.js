@@ -1,75 +1,90 @@
-var topics = ['books', 'nature', 'swimming', 'space'];
+1. Before you can make any part of our site work, you need to create an array of strings, each one related to a topic that interests you. Save it to a variable called `topics`. 
+    * We chose animals for our theme, but you can make a list to your own liking.
 
-function renderButtons() {
-    $('#addButton').empty();
-    //for loop that iterates through array and creates button
-    for (var i = 0; i < topics.length; i++) {
+2. Your app should take the topics in this array and create buttons in your HTML.
+    * Try using a loop that appends a button for each string in the array.
+
+3. When the user clicks on a button, the page should grab 10 static, non-animated gif images from the GIPHY API and place them on the page. 
+
+4. When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
+
+5. Under every gif, display its rating (PG, G, so on). 
+    * This data is provided by the GIPHY API.
+    * Only once you get images displaying with button presses should you move on to the next step.
+
+6. Add a form to your page takes the value from a user input box and adds it into your `topics` array. Then make a function call that takes each topic in the array remakes the buttons on the page.
+<script type="text/javascript">
+
+var topics 
 
 
-        var button = $('<button>');
-        button.addClass('topic');
-        button.attr('data-name', topics[i]);
-        button.text(topics[i]);
-        $('#addButton').append(button);
+$('button').on('click', function(){
+    var person = $(this).data('person'); // <------------------------- 1. What is this in "this" case?
 
-    }
-    addGif();
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + person + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-};
+    $.ajax({url: queryURL, method: 'GET'})
+     .done(function(response) {
+        var results = response.data;
 
-$('#addGif').on('click', function() {
-    var userInput = $('#gif-input').val().trim();
-    console.log($('#gif-input'));
-    topics.push(userInput);
-    renderButtons();
-    return false;
+        for (var i=0; i < results.length; i++) {
+
+            if (results[i].rating == "r" || results[i].rating == "pg-13")
+            {
+
+            }
+            else {
+                var gifDiv = $('<div class="item">')
+
+                var rating = results[i].rating;
+
+                var p = $('<p>').text( "Rating: " + rating);
+
+                var personImage = $('<img>');
+                personImage.attr('src', results[i].images.fixed_height.url);
+
+                gifDiv.append(p)
+                gifDiv.append(personImage)
+
+                $('#gifsAppearHere').prepend(gifDiv);
+
+            }
+         }
+    });
 });
 
-renderButtons();
 
+$('button').on('click', function(){
+    var person = $(this).data('person'); // <------------------------- 1. What is this in "this" case?
 
-function addGif() {
-    $('button').on('click', function() {
-        var p = $(this).data('name');
-        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + p + "&api_key=dc6zaTOxFJmzC&limit=10";
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + person + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-        $.ajax({ url: queryURL, method: 'GET' })
-            .done(function(response) {
-                var results = response.data;
-                console.log(response);
+    $.ajax({url: queryURL, method: 'GET'})
+     .done(function(response) {
+        var results = response.data;
 
-                for (var i = 0; i < results.length; i++) {
-                    var gifDiv = $('<div class="item">');
-                    var rating = results[i].rating;
-                    var p = $('<p>').text("Rating: " + rating);
+        for (var i=0; i < results.length; i++) {
 
-                    var giphyImg = $('<img>');
-                    giphyImg.attr('src', results[i].images.fixed_height_still.url);
-                    giphyImg.attr('data-still', results[i].images.fixed_height_still.url);
-                    giphyImg.attr('data-animate', results[i].images.fixed_height.url);
-                    giphyImg.attr('data-state', results[i].images.fixed_height_still.url);
+            if (results[i].rating == "r" || results[i].rating == "pg-13")
+            {
 
-                    gifDiv.append(giphyImg)
-                    gifDiv.append(p)
+            }
+            else {
+                var gifDiv = $('<div class="item">')
 
-                    $('#gifsAppearHere').prepend(gifDiv);
+                var rating = results[i].rating;
 
-                }
+                var p = $('<p>').text( "Rating: " + rating);
 
-                $('.item').children('img').on('click', function() {
+                var personImage = $('<img>');
+                personImage.attr('src', results[i].images.fixed_height.url);
 
+                gifDiv.append(p)
+                gifDiv.append(personImage)
 
-                    var state = $(this).attr('data-state');
-
-                    if (state == 'still') {
-                        $(this).attr('src', $(this).data('animate'));
-                        $(this).attr('data-state', 'animate');
-                    } else {
-                        $(this).attr('src', $(this).data('still'));
-                        $(this).attr('data-state', 'still');
-                    }
-
-                });
-            });
+                $('#gifsAppearHere').prepend(gifDiv);
+            }
+         }
     });
-}
+});
+</script>
