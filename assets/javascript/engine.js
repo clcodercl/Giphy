@@ -16,7 +16,7 @@
 <script type="text/javascript">
 
 //create an array of strings
-//var animal = ["cats", "dogs", "elephants", "monkeys", "skunks"];
+var animal = ["cats", "dogs", "elephants", "monkeys", "skunks"];
 
 
 // Try using a loop that appends a button for each string in the array. //When the user clicks on a button, the page should grab 10 static, non-animated gif images from the GIPHY API
