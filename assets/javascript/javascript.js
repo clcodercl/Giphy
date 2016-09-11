@@ -14,7 +14,7 @@
 
 // 6. Add a form to your page takes the value from a user input box and adds it into your `topics` array. Then make a function call that takes each topic in the array remakes the buttons on the page.
 $(document).ready(function(){
-    //create an array of strings
+  ///this creates initial buttons at top
     var animalsarray = ["cats", "dogs", "elephants", "monkeys", "skunks"];
    
     function buttongenerator() {
@@ -32,18 +32,22 @@ $(document).ready(function(){
     }
         buttongenerator();
 
+
+//this creates search results when click on buttons
 $(document).on("click", ".gif-button", function(){
         var searchtext = $(this).data("name"); 
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchtext + "&api_key=dc6zaTOxFJmzC&limit=10";
         $.ajax({url: queryURL, method: 'GET'}).done(function(response) {
           var results = response.data;
           console.log(results);   
+           
+        
+//this creates new buttons with add button
+  // for (var i=0; i < results.length; i++) {
+  //           var response = $('#gif-input').val().trim();
+  //           response.push("gif-button");
+
           
-          for (var i=0; i < results.length; i++) {
-            $("results").append(".git-button"); 
-          }
-
-
       });
     });
 
