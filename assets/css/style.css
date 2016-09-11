@@ -1,22 +1,23 @@
-h3 {
+h1 {
 	text-align: center;
+	background-color:blue;
+	color: #fff;
 }
 
-.jumbotron {
-	width: 60%;
-	margin-left: 100px;
-	margin-right: 100px;
-	padding: 50px;
+#buttons {
+	padding: 40px;
 }
 
-#addButton {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#gifForm {
+#jumbotron {
 	margin-left: 320px;
 	margin-bottom: 20px;
+	border-top: 50px;
+}
+
+#form {
+	margin-left: 320px;
+	margin-bottom: 20px;
+	border-top: 50px;
 }
 
 #addGif {
