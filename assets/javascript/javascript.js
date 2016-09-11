@@ -43,9 +43,13 @@ $(document).on("click", ".gif-button", function(){
            
         
 //this creates new buttons with add button
+  //  $('#addGIF').on('click', function(){
   // for (var i=0; i < results.length; i++) {
   //           var response = $('#gif-input').val().trim();
   //           response.push("gif-button");
+  //              renderButtons();
+  //              return false;
+  //  })
 
           
       });
